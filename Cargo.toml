@@ -7,8 +7,8 @@ edition = "2021"
 
 [dependencies]
 colour = "0.6.0"
-jni = { version = "0.20.0", features = ["invocation"] }
-tokio = { version = "1.24.1", features = ["time"] }
+jni = { version = "0.21.1", features = ["invocation"] }
+tokio = { version = "1.24.1", features = ["time", "macros", "rt-multi-thread"] }
 once_cell = "1.17.0"
 zip = "0.6.3"
 serde = { version = "1.0.152", features = ["derive"] }
