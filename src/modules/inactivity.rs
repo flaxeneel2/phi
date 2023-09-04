@@ -1,7 +1,7 @@
 use std::time::Duration;
 use tokio::time::sleep;
 use crate::log;
-use crate::servers::bukkit::bukkit::Bukkit;
+use crate::servers::bukkit::main::Bukkit;
 use crate::servers::bukkit::entity::player::Player;
 
 pub struct Inactivity;

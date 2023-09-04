@@ -1,6 +1,6 @@
 use jni::objects::{JObject, JObjectArray, JString};
 use crate::{error, jni, log};
-use crate::servers::bukkit::bukkit::Bukkit;
+use crate::servers::bukkit::main::Bukkit;
 
 #[derive(Debug)]
 pub struct Plugin {
