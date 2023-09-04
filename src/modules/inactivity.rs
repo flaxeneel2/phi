@@ -3,6 +3,7 @@ use tokio::time::sleep;
 use crate::log;
 use crate::servers::bukkit::main::Bukkit;
 use crate::servers::bukkit::entity::player::Player;
+use crate::util::misc::time_to_string;
 
 pub struct Inactivity;
 
@@ -12,6 +13,7 @@ impl Inactivity {
         tokio::spawn(Self::start_inactivity_checker(timeout));
     }
     async fn start_inactivity_checker(timeout: i32) {
+        let timestamps_to_warn: Vec<i32> = vec![300, 240, 180, 120, 60, 30, 15, 5, 4, 3, 2, 1];
         let mut counter = timeout;
         loop {
             sleep(Duration::from_secs(1)).await;
@@ -20,21 +22,15 @@ impl Inactivity {
             } else {
                 counter -= 1;
                 match counter {
-                    300 => { log!("There are no players online! The server will shut down in 5 minutes.") },
-                    180 => { log!("There are no players online! The server will shut down in 3 minutes.") },
-                    120 => { log!("There are no players online! The server will shut down in 2 minutes.") },
-                    60 => { log!("There are no players online! The server will shut down in 1 minute.") },
-                    30 => { log!("There are no players online! The server will shut down in 30 seconds.") },
-                    15 => { log!("There are no players online! The server will shut down in 15 seconds.") },
-                    5 => { log!("There are no players online! The server will shut down in 5 seconds.") },
-                    3 => { log!("There are no players online! The server will shut down in 3 seconds.") },
-                    2 => { log!("There are no players online! The server will shut down in 2 seconds.") },
-                    1 => { log!("There are no players online! The server will shut down in 1 second.") },
                     0 => {
                         log!("There has been no activity for a while! Shutting the server down...");
                         Bukkit::stop_server();
                     }
-                    _ => {}
+                    _ => {
+                        if timestamps_to_warn.contains(&counter) {
+                            log!("There are no players online! The server will shut down in {}", time_to_string(counter))
+                        }
+                    }
                 }
             }
         }

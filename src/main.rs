@@ -2,7 +2,7 @@ use std::env;
 use std::process::exit;
 use std::str::FromStr;
 use std::time::Duration;
-use graceful::SignalGuard;
+use better_graceful::SignalGuard;
 use jni::{InitArgsBuilder, JavaVM, JNIEnv, JNIVersion};
 use jni::objects::{JObject, JValue};
 use once_cell::sync::OnceCell;
@@ -11,11 +11,15 @@ use crate::servers::bukkit::main::Bukkit;
 use crate::servers::forge::main::Forge;
 use crate::util::jar_util::get_main_class;
 use crate::util::server_type::ServerType;
-use crate::util::server_type::ServerType::Fabric;
 
 mod util;
 mod servers;
 mod modules;
+
+
+struct Args {
+    
+}
 
 static JVM: OnceCell<JavaVM> = OnceCell::new();
 
@@ -114,7 +118,7 @@ async fn run_jar() {
     }
     loop {
         tokio::time::sleep(Duration::from_secs(7)).await;
-        println!("Online player count: {}", servers::fabric::entity::player::Player::get_online_player_count());
+        println!("Online player count: {}", servers::bukkit::entity::player::Player::get_online_player_count());
     }
     signal_guard.at_exit(move |_sig| {
         log!("Shutting down...");

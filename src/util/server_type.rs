@@ -17,17 +17,14 @@ pub enum ServerType {
 impl ServerType {
     pub fn detect() -> Self {
         if Path::new("libraries/net/minecraftforge/forge.jar").exists() {
-            log!("1");
             let mut reader = ZipArchive::new(File::open(Path::new("libraries/net/minecraftforge/forge.jar")).unwrap_or_else(|e| {
                 error!("{:?}", e);
-                error!("Jar not found!");
                 exit(1);
             })).unwrap();
             if reader.by_name("data/unix_args.txt").is_ok() {
                 return Self::Forge
             }
         } else {
-            log!("2");
             let jar_loc = env::var("JAR_LOCATION").unwrap_or_else(|_e| {
                 error!("jar location not set!");
                 exit(1)
