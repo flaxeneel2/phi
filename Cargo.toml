@@ -1,6 +1,7 @@
 [package]
 name = "phi"
 authors = ["Siddhant Misra <me@flaxeneel2.net>"]
+description = "A tool made for server hostings that allows for server control without the need of plugins or mods"
 version = "0.0.1-DEV"
 edition = "2021"
 

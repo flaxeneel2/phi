@@ -8,12 +8,12 @@ use crate::util::misc::time_to_string;
 pub struct Inactivity;
 
 impl Inactivity {
-    pub fn activate(timeout: i32) {
+    pub fn activate(timeout: u32) {
         log!("Starting checker");
         tokio::spawn(Self::start_inactivity_checker(timeout));
     }
-    async fn start_inactivity_checker(timeout: i32) {
-        let timestamps_to_warn: Vec<i32> = vec![300, 240, 180, 120, 60, 30, 15, 5, 4, 3, 2, 1];
+    async fn start_inactivity_checker(timeout: u32) {
+        let timestamps_to_warn: Vec<u32> = vec![300, 240, 180, 120, 60, 30, 15, 5, 4, 3, 2, 1];
         let mut counter = timeout;
         loop {
             sleep(Duration::from_secs(1)).await;

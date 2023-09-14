@@ -15,7 +15,11 @@ impl Forge {
             exit(1);
         })).unwrap();
         let mut contents = String::new();
-        reader.by_name("data/unix_args.txt").unwrap().read_to_string(&mut contents).unwrap();
+        if cfg!(unix) {
+            reader.by_name("data/unix_args.txt").unwrap().read_to_string(&mut contents).unwrap();
+        } else if cfg!(windows) {
+            reader.by_name("data/win_args.txt").unwrap().read_to_string(&mut contents).unwrap();
+        }
         contents.split('\n').for_each(|arg| {
             returner.push(arg.to_string())
         });
